@@ -1,0 +1,2 @@
+DEFAULT_BASE = "USD"
+DEFAULT_SYMBOLS = ["EUR", "GBP", "JPY", "MXN", "ARS", "BRL", "CLP", "COP"]
