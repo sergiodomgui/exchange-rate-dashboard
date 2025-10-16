@@ -53,6 +53,22 @@ def fetch_timeseries(start_date: str, end_date: str, base: str = "USD", symbols:
     except Exception as e:
         raise ValueError(f"Error descargando series: {e}")
 
+def fetch_latest_rate(base: str, symbol: str) -> Optional[float]:
+    """Descarga la tasa de cambio actual para un par específico."""
+    try:
+        url = f"https://api.frankfurter.app/latest?from={base}&to={symbol}"
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
+        data = r.json()
+        
+        # El campo 'rates' en 'latest' solo contiene un día (el actual)
+        rates = data.get("rates", {})
+        if rates and symbol in rates:
+            return float(rates[symbol])
+        return None
+    except Exception as e:
+        print(f"Error descargando tasa en tiempo real para {base}/{symbol}: {e}")
+        return None
 
 if __name__ == "__main__":
     import argparse
